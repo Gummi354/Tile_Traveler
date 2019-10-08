@@ -110,7 +110,7 @@ while not victory:
             if locating_coins:
                 coin_counter, Pull_lever = pull_lever_get_coin(coin_counter)
                 if Pull_lever: 
-                    print("You recieved 1 coin, your total is now "+str(coin_counter)+".")
+                    print("You received 1 coin, your total is now "+str(coin_counter)+".")
             valid_directions = find_directions(col, row)
             print_directions(valid_directions)
             

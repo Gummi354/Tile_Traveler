@@ -3,9 +3,11 @@ NORTH = 'n'
 EAST = 'e'
 SOUTH = 's'
 WEST = 'w'
+import random
 
-def move(direction, col, row):
+def move(direction, col, row, move_counter):
     ''' Returns updated col, row given the direction '''
+    move_counter += 1
     if direction == NORTH:
         row += 1
     elif direction == SOUTH:
@@ -14,7 +16,7 @@ def move(direction, col, row):
         col += 1
     elif direction == WEST:
         col -= 1
-    return(col, row)    
+    return(col, row, move_counter)    
 
 def is_victory(col, row):
     ''' Return true is player is in the victory cell '''
@@ -74,36 +76,41 @@ def coins_locations(col, row):
 
 def pull_lever_get_coin(coin_counter):
     '''Returns the updated coin counter and True if the player chooses to Pull the lever given the coin counter '''
-    Pull = input("Pull a lever (y/n): ")
+    Pull = random.choice( ["y", "n"] )
+    print("Pull a lever (y/n):", Pull)
     Pull = Pull.lower()
     Pull_lever = False
-    temp_coin_counter = coin_counter
     if Pull == 'y':
-        temp_coin_counter +=1
+        coin_counter +=1
         Pull_lever = True
-    return temp_coin_counter, Pull_lever
+    return coin_counter, Pull_lever
         
 def play():
+    #seed_amount = input("Input seed: ")
+    random.seed( int(input("Input seed: ")) )
     victory = False
     row = 1
     col = 1
     coin_counter = 0
+    move_counter = 0
 
     valid_directions = NORTH
     print_directions(valid_directions)
 
     while not victory:
-        direction = input("Direction: ")
+        direction = random.choice( ["n", "e", "s", "w"] )
+        print("Direction:", direction)
         direction = direction.lower()
         
         if not direction in valid_directions:
             print("Not a valid direction!")
             print_directions(valid_directions)
+            move_counter += 1
         else:
-            col, row = move(direction, col, row)
+            col, row, move_counter = move(direction, col, row, move_counter)
             victory = is_victory(col, row)
             if victory:
-                print("Victory! Total coins "+str(coin_counter)+".")
+                print("Victory! Total coins "+str(coin_counter)+". Moves " + str(move_counter) + ".")
             else:
                 locating_coins = coins_locations(col, row)
                 if locating_coins:

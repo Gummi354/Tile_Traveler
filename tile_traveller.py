@@ -83,34 +83,43 @@ def pull_lever_get_coin(coin_counter):
         Pull_lever = True
     return temp_coin_counter, Pull_lever
         
+def play():
+    victory = False
+    row = 1
+    col = 1
+    coin_counter = 0
 
-# The main program starts here
-victory = False
-row = 1
-col = 1
-coin_counter = 0
+    valid_directions = NORTH
+    print_directions(valid_directions)
 
-valid_directions = NORTH
-print_directions(valid_directions)
-
-while not victory:
-    direction = input("Direction: ")
-    direction = direction.lower()
-    
-    if not direction in valid_directions:
-        print("Not a valid direction!")
-        print_directions(valid_directions)
-    else:
-        col, row = move(direction, col, row)
-        victory = is_victory(col, row)
-        if victory:
-            print("Victory! Total coins "+str(coin_counter)+".")
-        else:
-            locating_coins = coins_locations(col, row)
-            if locating_coins:
-                coin_counter, Pull_lever = pull_lever_get_coin(coin_counter)
-                if Pull_lever: 
-                    print("You received 1 coin, your total is now "+str(coin_counter)+".")
-            valid_directions = find_directions(col, row)
+    while not victory:
+        direction = input("Direction: ")
+        direction = direction.lower()
+        
+        if not direction in valid_directions:
+            print("Not a valid direction!")
             print_directions(valid_directions)
+        else:
+            col, row = move(direction, col, row)
+            victory = is_victory(col, row)
+            if victory:
+                print("Victory! Total coins "+str(coin_counter)+".")
+            else:
+                locating_coins = coins_locations(col, row)
+                if locating_coins:
+                    coin_counter, Pull_lever = pull_lever_get_coin(coin_counter)
+                    if Pull_lever: 
+                        print("You received 1 coin, your total is now "+str(coin_counter)+".")
+                valid_directions = find_directions(col, row)
+                print_directions(valid_directions)
+
+Play_again = True
+while Play_again:
+    play()
+    another_one = input("Play again (y/n): ")
+    another_one = another_one.lower()
+    if another_one == "n":
+        Play_again = False
+
+
             
